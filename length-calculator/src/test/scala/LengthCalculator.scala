@@ -1,13 +1,15 @@
-package com.learnscala.lengthcalculator.test
+package learnscala.lengthcalculator.test
 
-import org.scalatest.FunSuite
+import learnscala.lengthcalculator._
 
-class LengthCalculator {
-}
+import org.scalatest._
+import org.scalatest.matchers.ShouldMatchers
 
-class LengthCalculatorTest extends FunSuite {
-  test("LengthCalculator: Constructor"){
-    new LengthCalculator()
+class LengthCalculatorTest extends FlatSpec with ShouldMatchers {
+
+  "Meter instances with same value" should "be equal" in {
+    new Meter(1) should equal (new Meter(1))
   }
+
 }
 
