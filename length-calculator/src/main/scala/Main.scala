@@ -1,8 +1,10 @@
 package learnscala.lengthcalculator
 
+import learnscala.lengthcalculator.Meter._
+
 object Program {
   def main(args: Array[String]) = {
-    println("1m == 1m: " + (new Meter(1) == new Meter(1)))
-    println("1m == 2m: " + (new Meter(1) == new Meter(2)))
+    println("1m == 1m: " + (1.meter == 1.meter))
+    println("2m == 1m: " + (2.meter == 1.meter))
   }
 }

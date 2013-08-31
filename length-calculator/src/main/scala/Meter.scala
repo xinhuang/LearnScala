@@ -11,3 +11,14 @@ class Meter(value: Int) {
   override def hashCode = value_.hashCode
 }
 
+object Meter {
+
+  class Number2Meter(val value: Int) {
+    def meter: Meter = {
+      new Meter(value) 
+    }
+  }
+
+  implicit def intExt(value: Int) = new Number2Meter(value)
+}
+
