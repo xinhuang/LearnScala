@@ -17,6 +17,9 @@ object Meter {
     def meter: Meter = {
       new Meter(value) 
     }
+    def centimeter: Meter = {
+      new Meter(value / 100)
+    }
   }
 
   implicit def intExt(value: Int) = new Number2Meter(value)
