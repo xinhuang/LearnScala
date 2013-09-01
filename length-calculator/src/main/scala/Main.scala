@@ -1,6 +1,6 @@
 package learnscala.lengthcalculator
 
-import learnscala.lengthcalculator.Meter._
+import learnscala.lengthcalculator.Length._
 
 object Program {
   def main(args: Array[String]) = {

@@ -1,34 +1,37 @@
 package learnscala.lengthcalculator.test
 
-import learnscala.lengthcalculator._
-import learnscala.lengthcalculator.Meter._
+import learnscala.lengthcalculator.Length._
 
 import org.scalatest.FunSuite
 
 class LengthCalculatorTest extends FunSuite {
 
-  test("Meter instances with same value should be equal") {
-    assert(new Meter(1) == new Meter(1))
+  test("1m == 1m") {
+    assert(1.meter === 1.meter)
   }
 
-  test("Meter instances with different value should not be equal") {
-    assert(new Meter(2) != new Meter(1))
+  test("100cm == 1m") {
+    assert(100.centimeter === 1.meter)
   }
 
-  test("1 meter == 1 meter") {
-    assert(1.meter == 1.meter)
+  test("10cm == 0.1m") {
+    assert(10.centimeter === 0.1.meter)
   }
 
-  test("100 centimeter should equal to 1 meter") {
-    assert(100.centimeter == 1.meter)
+  test("10cm == 1dm") {
+    assert(10.centimeter === 1.decimeter)
   }
 
-  test("10 centimeter should equal to 0.1 meter") {
-    assert(10.centimeter == 0.1.meter)
+  test("10.inch == 25.4.cm") {
+    assert(10.inch === 25.4.cm)
   }
 
-  test("10 centimeter should equal to 1 decimeter") {
-    assert(10.centimeter == 1.decimeter)
+  test("1.cm < 2.cm") {
+    assert(1.cm < 2.cm)
+  }
+
+  test("10.inch < 1.m") {
+    assert(10.inch < 1.m)
   }
 }
 
