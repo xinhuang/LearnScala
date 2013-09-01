@@ -19,9 +19,12 @@ class LengthCalculatorTest extends FunSuite {
     assert(1.meter == 1.meter)
   }
 
-  test("100 centimeter should equal 1 meter") {
+  test("100 centimeter should equal to 1 meter") {
     assert(100.centimeter == 1.meter)
   }
 
+  test("10 centimeter should equal to 0.1 meter") {
+    assert(10.centimeter == 0.1.meter)
+  }
 }
 

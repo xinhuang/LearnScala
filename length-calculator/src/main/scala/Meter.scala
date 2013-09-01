@@ -1,6 +1,6 @@
 package learnscala.lengthcalculator
 
-class Meter(value: Int) {
+class Meter(value: Double) {
   val value_ = value
 
   override def equals(o: Any) = o match {
@@ -13,7 +13,7 @@ class Meter(value: Int) {
 
 object Meter {
 
-  class Number2Meter(val value: Int) {
+  class Number2Meter(val value: Double) {
     def meter: Meter = {
       new Meter(value) 
     }
@@ -23,5 +23,6 @@ object Meter {
   }
 
   implicit def intExt(value: Int) = new Number2Meter(value)
+  implicit def intExt(value: Double) = new Number2Meter(value)
 }
 
