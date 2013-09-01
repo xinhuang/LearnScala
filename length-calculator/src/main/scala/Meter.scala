@@ -20,6 +20,12 @@ class Meter(value: Double) {
     this.value_ < o.value_
   }
 
+  def >(o: Meter):Boolean = {
+    if (this.value_ ~== o.value_)
+      return false
+    o < this
+  }
+
   override def hashCode = value_.hashCode
   override def toString = value_.toString + "m"
 }

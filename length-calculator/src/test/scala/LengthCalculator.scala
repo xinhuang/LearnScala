@@ -33,5 +33,9 @@ class LengthCalculatorTest extends FunSuite {
   test("10.inch < 1.m") {
     assert(10.inch < 1.m)
   }
+  
+  test("1.m > 1.inch") {
+    assert(1.m > 1.inch)
+  }
 }
 
