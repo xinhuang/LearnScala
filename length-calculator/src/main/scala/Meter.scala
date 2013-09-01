@@ -3,29 +3,21 @@ package learnscala.lengthcalculator
 class Meter(value: Double) {
   val value_ = value
 
-  class WithAlmostEquals(value: Double) {
-    def ~==(other: Double):Boolean = (value - other).abs <= Length.precision
-  }
-
-  implicit def add_~==(d: Double) = new WithAlmostEquals(d)
-
+  import Length._
   override def equals(o: Any) = o match {
-    case that: Meter =>  that.value_ ~== this.value_ 
+    case that: Meter => compareTo(that) == 0
     case _ => false
   }
 
   def *(scale: Double):Meter = new Meter(value * scale)
 
-  def <(o: Meter):Boolean = {
-    if (this.value_ ~== o.value_)
-      return false
-    this.value_ < o.value_
-  }
+  def <(o: Meter):Boolean = compareTo(o) < 0
+  def >(o: Meter):Boolean = compareTo(o) > 0
 
-  def >(o: Meter):Boolean = {
-    if (this.value_ ~== o.value_)
-      return false
-    o < this
+  def compareTo(rhs: Meter):Int = {
+    if ((rhs.value_ - this.value_).abs < Length.precision.value_)
+      return 0
+    if (this.value_ > rhs.value_) 1 else -1
   }
 
   override def hashCode = value_.hashCode

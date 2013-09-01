@@ -1,8 +1,6 @@
 package learnscala.lengthcalculator
 
 object Length {
-  val precision = 0.00001
-
   implicit def intExt(value: Int) = new Number2Meter(value)
   implicit def doubleExt(value: Double) = new Number2Meter(value)
 
@@ -18,5 +16,6 @@ object Length {
     def inch: Meter = 0.0254.m * value
   }
 
+  val precision = 0.00001.m
 }
 
