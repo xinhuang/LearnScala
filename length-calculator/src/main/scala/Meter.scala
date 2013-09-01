@@ -14,6 +14,8 @@ class Meter(value: Double) {
     case _ => false
   }
 
+  def *(scale: Double):Meter = new Meter(value * scale)
+
   def <(o: Meter):Boolean = {
     if (this.value_ ~== o.value_)
       return false
