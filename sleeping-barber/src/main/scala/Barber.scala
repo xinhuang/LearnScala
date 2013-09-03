@@ -1,6 +1,6 @@
 package learnscala.sleepingbarber
 
-import akka.actor._
+import akka.actor.Actor
 import scala.util.Random
 
 class Barber extends Actor {

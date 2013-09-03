@@ -1,8 +1,17 @@
 package learnscala.sleepingbarber
 
 class Customer(val id: Int) {
-  var shorn: Boolean = false
+  var shorn_ = false
 
-  override def toString =  "customer " + id 
+  def shorn = shorn_
+  def shorn_=(value: Boolean) = {
+  	shorn_ = value
+  	if (value)
+  	  println("[c]" + this + " got shorn")
+  	else
+  	  println("[c]" + this + " feels weird because hair grows again!")
+  }
+
+  override def toString =  "customer " + id
   
 }
