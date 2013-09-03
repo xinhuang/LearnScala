@@ -17,5 +17,10 @@ class Barber(private val shop: Shop) extends Actor {
 
   def receive = {
   	case customer: Customer => shear(customer)
+    case BarberSleep => {
+      println("[b] barber falls asleep")
+      sender ! BarberSlept
+      context.stop(self)
+    }
   }
 }

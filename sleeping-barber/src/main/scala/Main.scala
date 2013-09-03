@@ -10,9 +10,16 @@ object Program {
     val shop = system.actorOf(Props(new Shop(system)))
     val rand = new Random()
 
+    system.registerOnTermination {
+      println("system shutdown")
+      system.shutdown()
+    }
+
     for( i <- 0 to 20) {
     	Thread.sleep(rand.nextInt(450))
     	shop ! new Customer(i)
     }
+
+    shop ! ShopClose
   }		
 }

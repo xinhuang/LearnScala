@@ -3,9 +3,11 @@ package learnscala.sleepingbarber
 import akka.actor._
 import akka.actor.ActorSystem
 
-object ShopEvent extends Enumeration {
-  val CustomerLeft = 0
-}
+abstract class ShopEvent
+case object BarberSleep extends ShopEvent
+case object BarberSlept extends ShopEvent
+case object ShopClose extends ShopEvent
+case object ShopClosed extends ShopEvent
 
 class Shop(system: ActorSystem) extends Actor {
   private val barber = system.actorOf(Props(new Barber(this)))
@@ -14,8 +16,16 @@ class Shop(system: ActorSystem) extends Actor {
 
   def receive = {
     case customer: Customer => guide(customer)
-    case ShopEvent.CustomerLeft => waiting -= 1
-    case _ => throw new Exception("[s]shop only receive Customer")
+    case ShopClose => barber ! BarberSleep
+    case BarberSlept => shutdown()
+    case that => throw new Exception("[s]shop only receive customers or events, but got " + that)
+  }
+
+  def waiting = waiting_
+  def waiting_=(value:Int) = {
+    this.synchronized {
+      waiting_ = value
+    }
   }
 
   private def guide(customer: Customer) = {
@@ -31,12 +41,9 @@ class Shop(system: ActorSystem) extends Actor {
     println("[s] turn over " + customer)
   }
 
-  def waiting = waiting_
-
-  def waiting_=(value:Int) = {
-    this.synchronized {
-      waiting_ = value
-    }
+  private def shutdown() = {
+    context.stop(self)
+    println("[s] shop closes")
   }
 }
 
