@@ -8,8 +8,8 @@ object ShopEvent extends Enumeration {
 }
 
 class Shop(system: ActorSystem) extends Actor {
-  private val barber = system.actorOf(Props(new Barber(self)))
-  private var waiting = 0
+  private val barber = system.actorOf(Props(new Barber(this)))
+  private var waiting_ = 0
   private val MaxQueue = 4
 
   def receive = {
@@ -19,10 +19,10 @@ class Shop(system: ActorSystem) extends Actor {
   }
 
   private def guide(customer: Customer) = {
-    waiting += 1
     if (waiting >= MaxQueue) {
       turnOver(customer)
     } else {
+      waiting += 1
       barber ! customer
     }
   }
@@ -30,4 +30,13 @@ class Shop(system: ActorSystem) extends Actor {
   private def turnOver(customer: Customer) = {
     println("[s] turn over " + customer)
   }
+
+  def waiting = waiting_
+
+  def waiting_=(value:Int) = {
+    this.synchronized {
+      waiting_ = value
+    }
+  }
 }
+

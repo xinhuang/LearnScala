@@ -3,7 +3,7 @@ package learnscala.sleepingbarber
 import scala.util.Random
 import akka.actor._
 
-class Barber(private val shop: ActorRef) extends Actor {
+class Barber(private val shop: Shop) extends Actor {
   private val SeatTotal = 3
   private val random = new Random()
 
@@ -12,7 +12,7 @@ class Barber(private val shop: ActorRef) extends Actor {
     Thread.sleep(100 + random.nextInt(400))
     customer.shorn = true
     
-    shop ! ShopEvent.CustomerLeft
+    shop.waiting -= 1
   }
 
   def receive = {
