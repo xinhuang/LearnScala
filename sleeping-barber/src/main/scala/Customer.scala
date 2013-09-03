@@ -7,7 +7,7 @@ class Customer(val id: Int) {
   def shorn_=(value: Boolean) = {
   	shorn_ = value
   	if (value)
-  	  println("[c] " + this + " got shorn")
+  	  println("[c] " + this + " got hair cut today")
   	else
   	  println("[c] " + this + " feels weird because hair grows again!")
   }
