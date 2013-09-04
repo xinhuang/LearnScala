@@ -11,6 +11,8 @@ class AsyncConsole {
 
   def stop(): Unit = activeObject.stop()
 
+  def dispose() = stop()
+
   private def doPrint(o: Any): Unit = {
     Console.print(o.toString)
   }
