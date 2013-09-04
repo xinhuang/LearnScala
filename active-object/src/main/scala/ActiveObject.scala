@@ -4,23 +4,23 @@ import akka.actor.ActorSystem
 import akka.actor.ActorDSL._
 import akka.actor.PoisonPill
 
-trait ActiveObject {
+class ActiveObject {
   type Message = () => Unit
 
   private var isRunning = true
+  private case class ActorStop()
+  private implicit val system = ActorSystem("active-object")
 
   def send(m: Message) = this ! m
   def !(m: Message) = a ! m
 
   def stop() = {
-    a ! PoisonPill
+    a ! ActorStop
     while (isRunning)
       Thread.sleep(100)
   }
   
-  private implicit val system = ActorSystem("active-object")
 
-  case class ActorStop()
 
   private val a = actor(new Act {
       become {
