@@ -9,8 +9,8 @@ case object BarberSlept extends ShopEvent
 case object ShopClose extends ShopEvent
 case object ShopClosed extends ShopEvent
 
-class Shop(system: ActorSystem) extends Actor {
-  private val barber = system.actorOf(Props(new Barber(this)))
+class Shop extends Actor {
+  private val barber = context.system.actorOf(Props(new Barber(this)), "barber")
   private var waiting_ = 0
   private val MaxQueue = 4
 
