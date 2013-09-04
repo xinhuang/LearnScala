@@ -4,11 +4,12 @@ import akka.actor.ActorSystem
 import akka.actor.ActorDSL._
 import akka.actor.PoisonPill
 
+case object ActorStop
+
 class ActiveObject {
   type Message = () => Unit
 
   private var isRunning = true
-  private case class ActorStop()
   private implicit val system = ActorSystem("active-object")
 
   def send(m: Message) = this ! m
@@ -16,13 +17,12 @@ class ActiveObject {
 
   def stop() = {
     a ! ActorStop
-    while (isRunning)
+    while (isRunning) {
       Thread.sleep(100)
+    }
   }
-  
 
-
-  private val a = actor(new Act {
+  private val a = actor("active-objct") (new Act {
       become {
         case m: Message => m()
         case ActorStop => { 
@@ -32,3 +32,4 @@ class ActiveObject {
       }
     })
 }
+
