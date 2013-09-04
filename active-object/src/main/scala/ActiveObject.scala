@@ -2,12 +2,10 @@ package learnscala.activeobject
 
 import akka.actor.ActorSystem
 import akka.actor.ActorDSL._
-import akka.actor.PoisonPill
-
-case object ActorStop
 
 class ActiveObject {
   type Message = () => Unit
+  case object StopEvent
 
   private var isRunning = true
   private implicit val system = ActorSystem("active-object")
@@ -16,7 +14,7 @@ class ActiveObject {
   def !(m: Message) = a ! m
 
   def stop() = {
-    a ! ActorStop
+    a ! StopEvent
     while (isRunning) {
       Thread.sleep(100)
     }
@@ -25,7 +23,7 @@ class ActiveObject {
   private val a = actor("active-objct") (new Act {
       become {
         case m: Message => m()
-        case ActorStop => { 
+        case StopEvent => { 
           context.stop(self)
           isRunning = false
         }
