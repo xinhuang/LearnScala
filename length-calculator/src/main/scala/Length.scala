@@ -1,5 +1,7 @@
 package learnscala.lengthcalculator
 
+import scala.language.implicitConversions
+
 object Length {
   implicit def intExt(value: Int) = new Number2Meter(value)
   implicit def doubleExt(value: Double) = new Number2Meter(value)
