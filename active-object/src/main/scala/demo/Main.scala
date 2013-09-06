@@ -1,6 +1,6 @@
 package learnscala.activeobject.demo
 
-import learnscala.activeobject.RAII._
+import learnscala.raii.RAII._
 
 object Program {
   def main(args: Array[String]): Unit = {

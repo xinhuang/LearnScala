@@ -3,6 +3,8 @@ package learnscala.activeobject
 import akka.actor.ActorSystem
 import akka.actor.ActorDSL._
 
+import learnscala.raii.RAII._
+
 class ActiveObject {
   type Message = () => Unit
   case object StopEvent
