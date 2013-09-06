@@ -10,6 +10,10 @@ lazy val `parking-lot` = project
 
 lazy val RAII = project
 
+lazy val yaffuts = project
+
+// common properties
+
 scalaVersion := "2.10.2"
 
 scalacOptions ++= Seq("-deprecation", "-feature")

@@ -1,0 +1,3 @@
+[submodule "yaffuts"]
+	path = yaffuts
+	url = git@github.com:xinhuang/Yaffuts.git
