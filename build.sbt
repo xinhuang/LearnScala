@@ -12,6 +12,8 @@ lazy val RAII = project
 
 lazy val yaffuts = project
 
+lazy val `command-line` = project
+
 // common properties
 
 scalaVersion := "2.10.2"
