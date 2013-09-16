@@ -6,7 +6,9 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 class TestFileOption {
+  @Option("filename")
   var file: String = ""
+  private var privatefield = 1
 }
 
 class CommandLineTest extends FlatSpec with ShouldMatchers {
