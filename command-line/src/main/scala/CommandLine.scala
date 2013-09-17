@@ -13,12 +13,14 @@ object CommandLine {
   def parse[T](args: Seq[String])(implicit m: Manifest[T]): T = {
     val option = m.runtimeClass.newInstance.asInstanceOf[T]
 
-    val optionName = args(0).drop(2)
-    val value = args(1)
+    for (i <- 1 to args.length / 2) {
+      val optionName = args(i * 2 - 2).drop(2)
+      val value = args(i * 2 - 1)
 
-    val im = rm.reflect(option)
-    val field = findField[T](optionName)
-    setField(im, field, value)
+      val field = findField[T](optionName)
+      val im = rm.reflect(option)
+      setField(im, field, value)
+    }
 
   	option
   }
@@ -35,7 +37,9 @@ object CommandLine {
         m.annotations.find(a => a.tpe == annotationType) match {
           case Some(a) => {
             getOption(a) match {
-              case Option(optionName) => return m.asTerm
+              case Option(currentName) if currentName == optionName =>
+                  return m.asTerm
+              case _ =>
             }
           }
           case None => 

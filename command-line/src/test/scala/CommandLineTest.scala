@@ -5,19 +5,37 @@ import learnscala.commandline._
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-class TestFileOption {
+class FullNameOption1 {
   @Option("filename")
   var file: String = ""
-  private var privatefield = 1
+  var shallNotChange = 7733
+}
+
+class FullNameOption2 {
+  @Option("filename")
+  var file: String = ""
+  @Option("version")
+  var version: String = ""
 }
 
 class CommandLineTest extends FlatSpec with ShouldMatchers {
 
-  "--file a.txt" should "be parsed to TestFileOption" in {
-  	val args = Seq("--file", "a.txt")
+  // it should "parse option with 1 field via full name " in {
+  // 	val args = Seq("--filename", "a.txt")
   	
-  	val actual = CommandLine.parse[TestFileOption](args)
+  // 	val actual = CommandLine.parse[FullNameOption1](args)
+
+  // 	actual.file should be ("a.txt")
+  // 	actual.shallNotChange should be (7733)
+  // }
+
+  it should "parse option with 2 fields via full name" in {
+  	val args = Seq("--filename", "a.txt", "--version", "Apollo")
+  	
+  	val actual = CommandLine.parse[FullNameOption2](args)
 
   	actual.file should be ("a.txt")
+  	actual.version should be ("Apollo")
   }
+
 }
