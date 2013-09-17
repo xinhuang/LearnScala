@@ -17,8 +17,13 @@ class OptionSetter[T](implicit m: Manifest[T]) {
   }
 
   private def setField(field: universe.TermSymbol, value: String): Unit = {
-    val fm = im.reflectField(field)
-    fm.set(value)
+    val fieldType = field.typeSignature
+    if (fieldType =:= universe.typeOf[String]) {
+      val fm = im.reflectField(field)
+      fm.set(value)
+    } else {
+      throw new Exception("field " + field + " cannot be assigned a value of String")
+    }
   }
 
   private def findField(optionName: String): universe.TermSymbol = {

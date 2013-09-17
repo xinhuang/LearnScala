@@ -18,16 +18,23 @@ class FullNameOption2 {
   var version: String = ""
 }
 
+class NonStringOption {
+  @Option("filename")
+  var file: String = ""
+  @Option("version")
+  var version: Int = 0
+}
+
 class CommandLineTest extends FlatSpec with ShouldMatchers {
 
-  // it should "parse option with 1 field via full name " in {
-  // 	val args = Seq("--filename", "a.txt")
+  it should "parse option with 1 field via full name " in {
+  	val args = Seq("--filename", "a.txt")
   	
-  // 	val actual = CommandLine.parse[FullNameOption1](args)
+  	val actual = CommandLine.parse[FullNameOption1](args)
 
-  // 	actual.file should be ("a.txt")
-  // 	actual.shallNotChange should be (7733)
-  // }
+  	actual.file should be ("a.txt")
+  	actual.shallNotChange should be (7733)
+  }
 
   it should "parse option with 2 fields via full name" in {
   	val args = Seq("--filename", "a.txt", "--version", "Apollo")
@@ -36,6 +43,17 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
 
   	actual.file should be ("a.txt")
   	actual.version should be ("Apollo")
+  }
+
+  it should "parse option with non-string fields via full name should throw exception" in {
+  	val args = Seq("--filename", "a.txt", "--version", "33")
+  	
+  	intercept[Exception] {
+  	  val actual = CommandLine.parse[NonStringOption](args)
+
+  	  actual.file should be ("a.txt")
+  	  actual.version should be (33)
+    }
   }
 
 }
