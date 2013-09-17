@@ -2,6 +2,7 @@ package learnscala.commandline
 
 import scala.reflect.runtime.universe
 import scala.reflect.Manifest
+import scala.reflect.api.Annotations
 import scala.annotation.StaticAnnotation
 
 case class Option(val longname: String) extends StaticAnnotation
@@ -28,14 +29,29 @@ object CommandLine {
   }
 
   private def findField[T](optionName: String)(implicit m: Manifest[T]): universe.TermSymbol = {
-    universe.typeOf[T].members.filter(m => !m.isMethod && m.isTerm).foreach{m =>
-      m.annotations.foreach { a => 
-        println(a.getClass)
-        println(a.tpe)
-        println(a.scalaArgs(0).getClass)
+    universe.typeOf[T].members.filter(m => !m.isMethod && m.isTerm)
+      .foreach{ m =>
+        val annotationType = universe.typeOf[Option]
+        m.annotations.find(a => a.tpe == annotationType) match {
+          case Some(a) => {
+            getOption(a) match {
+              case Option(optionName) => return m.asTerm
+            }
+          }
+          case None => 
+        }
       }
-    }
-    val sym = universe.typeOf[T].members.filter(m => !m.isMethod && m.isTerm).last
-    sym.asTerm
+    throw new Exception("No option found matching " + optionName)
+  }
+
+  private def getOption(a: universe.AnnotationApi): Option = {
+    val args = a.scalaArgs.map(a => a.productElement(0).asInstanceOf[universe.Constant].value)
+    val classType = universe.typeOf[Option]
+    val classSymbol = classType.typeSymbol.asClass
+    val classMirror = rm.reflectClass(classSymbol)
+    val ctorSymbol = classType.declaration(universe.nme.CONSTRUCTOR).asMethod
+    val ctorMirror = classMirror.reflectConstructor(ctorSymbol)
+    val instance = ctorMirror(args: _*).asInstanceOf[Option]
+    return instance
   }
 }
