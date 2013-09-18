@@ -48,12 +48,10 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
   it should "parse option with non-string fields via full name should throw exception" in {
   	val args = Seq("--filename", "a.txt", "--version", "33")
   	
-  	intercept[Exception] {
-  	  val actual = CommandLine.parse[NonStringOption](args)
+	  val actual = CommandLine.parse[NonStringOption](args)
 
-  	  actual.file should be ("a.txt")
-  	  actual.version should be (33)
-    }
+	  actual.file should be ("a.txt")
+	  actual.version should be (33)
   }
 
 }
