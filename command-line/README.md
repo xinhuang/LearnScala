@@ -35,6 +35,7 @@ This is a command line parser for Scala. The idea is inspired by [command-line][
 * default value
 * verb option
 * getopt style option
+* list values for a option
 
 ## License
 
