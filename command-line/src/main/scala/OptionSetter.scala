@@ -25,6 +25,8 @@ class OptionSetter[T](implicit m: Manifest[T]) {
       fm.set(value.toInt)
     } else if (fieldType =:= universe.typeOf[Double]) {
       fm.set(value.toDouble)
+    } else if (fieldType =:= universe.typeOf[Boolean]) {
+      fm.set(value.toBoolean)
     } else {
       throw new Exception("field " + field + " cannot be assigned a value of String")
     }

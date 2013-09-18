@@ -27,6 +27,11 @@ class NonStringOption {
   var double: Double = 0
 }
 
+class FlagOption {
+  @Option("myflag")
+  var flag: Boolean = false
+}
+
 class CommandLineTest extends FlatSpec with ShouldMatchers {
 
   it should "parse option with 1 field via full name " in {
@@ -47,7 +52,7 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
   	actual.version should be ("Apollo")
   }
 
-  it should "parse option with non-string fields via full name should throw exception" in {
+  it should "parse option with non-string fields via full name" in {
   	val args = Seq("--string", "a.txt", "--int", "33", "--double", "44.55")
   	
 	  val actual = CommandLine.parse[NonStringOption](args)
@@ -55,6 +60,14 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
 	  actual.string should be ("a.txt")
     actual.int should be (33)
 	  actual.double should be (44.55)
+  }
+
+  it should "parse flag into boolean value" in {
+    val args = Seq("--myflag")
+
+    val actual = CommandLine.parse[FlagOption](args)
+
+    actual.flag should be (true)
   }
 
 }
