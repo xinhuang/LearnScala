@@ -19,10 +19,12 @@ class FullNameOption2 {
 }
 
 class NonStringOption {
-  @Option("filename")
-  var file: String = ""
-  @Option("version")
-  var version: Int = 0
+  @Option("string")
+  var string: String = ""
+  @Option("int")
+  var int: Int = 0
+  @Option("double")
+  var double: Double = 0
 }
 
 class CommandLineTest extends FlatSpec with ShouldMatchers {
@@ -46,12 +48,13 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "parse option with non-string fields via full name should throw exception" in {
-  	val args = Seq("--filename", "a.txt", "--version", "33")
+  	val args = Seq("--string", "a.txt", "--int", "33", "--double", "44.55")
   	
 	  val actual = CommandLine.parse[NonStringOption](args)
 
-	  actual.file should be ("a.txt")
-	  actual.version should be (33)
+	  actual.string should be ("a.txt")
+    actual.int should be (33)
+	  actual.double should be (44.55)
   }
 
 }
