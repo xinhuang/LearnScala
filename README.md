@@ -1,6 +1,6 @@
 This is my Scala exercise projects.
 
-All source code are licensed under [WTFPL](http://www.wtfpl.net/about/)
+All source code are licensed under, if not specified. [WTFPL](http://www.wtfpl.net/about/)
 
 # How to Master A Language?
 
