@@ -52,14 +52,20 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
   	actual.version should be ("Apollo")
   }
 
-  it should "parse option with non-string fields via full name" in {
-  	val args = Seq("--string", "a.txt", "--int", "33", "--double", "44.55")
-  	
-	  val actual = CommandLine.parse[NonStringOption](args)
+  it should "parse option with int fields via full name" in {
+    val args = Seq("--int", "33")
+    
+    val actual = CommandLine.parse[NonStringOption](args)
 
-	  actual.string should be ("a.txt")
     actual.int should be (33)
-	  actual.double should be (44.55)
+  }
+
+  it should "parse option with double fields via full name" in {
+    val args = Seq("--double", "44.55")
+    
+    val actual = CommandLine.parse[NonStringOption](args)
+
+    actual.double should be (44.55)
   }
 
   it should "parse flag into boolean value" in {
