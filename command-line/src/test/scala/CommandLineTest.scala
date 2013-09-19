@@ -5,38 +5,6 @@ import learnscala.commandline._
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-class FullNameOption1 {
-  @Option("filename")
-  var file: String = ""
-  var shallNotChange = 7733
-}
-
-class FullNameOption2 {
-  @Option("filename")
-  var file: String = ""
-  @Option("version")
-  var version: String = ""
-}
-
-class NonStringOption {
-  @Option("string")
-  var string: String = ""
-  @Option("int")
-  var int: Int = 0
-  @Option("double")
-  var double: Double = 0
-}
-
-class FlagOption {
-  @Option("myflag")
-  var flag: Boolean = false
-}
-
-class AbbrOption {
-  @Option("file", "f")
-  var file: String = ""
-}
-
 class CommandLineTest extends FlatSpec with ShouldMatchers {
 
   it should "parse option with 1 field via full name " in {

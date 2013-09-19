@@ -14,7 +14,7 @@ This is a command line parser for Scala. The idea is inspired by [command-line][
       @Option("ADoubleValue")
       var doubleValue: Double = 0
 
-      @Option("AFlag")
+      @Option(name = "AFlag", abbr = "f")
       var flag: Boolean = false
     }
 
