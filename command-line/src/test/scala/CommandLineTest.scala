@@ -32,6 +32,11 @@ class FlagOption {
   var flag: Boolean = false
 }
 
+class AbbrOption {
+  @Option("file", "f")
+  var file: String = ""
+}
+
 class CommandLineTest extends FlatSpec with ShouldMatchers {
 
   it should "parse option with 1 field via full name " in {
@@ -74,6 +79,14 @@ class CommandLineTest extends FlatSpec with ShouldMatchers {
     val actual = CommandLine.parse[FlagOption](args)
 
     actual.flag should be (true)
+  }
+
+  it should "parse option via abbr" in {
+    val args = Seq("-f", "a.txt")
+
+    val actual = CommandLine.parse[AbbrOption](args)
+
+    actual.file should be ("a.txt")
   }
 
 }

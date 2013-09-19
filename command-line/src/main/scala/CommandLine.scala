@@ -26,6 +26,8 @@ object CommandLine {
   private def optionGroup(arg: String, prevOption: String): String = {
     if (arg.startsWith("--")) 
       arg.drop(2)
+    else if (arg.startsWith("-"))
+      arg.drop(1)
     else
       prevOption
   }

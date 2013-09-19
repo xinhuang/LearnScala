@@ -38,7 +38,7 @@ class OptionSetter[T](implicit m: Manifest[T]) {
         m.annotations.find(a => a.tpe == annotationType) match {
           case Some(a) => {
             getOption(a) match {
-              case Option(name, abbr) if name == optionName =>
+              case Option(name, abbr) if name == optionName || abbr == optionName =>
                   return m.asTerm
               case _ =>
             }
