@@ -38,7 +38,7 @@ class OptionSetter[T](implicit m: Manifest[T]) {
         m.annotations.find(a => a.tpe == annotationType) match {
           case Some(a) => {
             getOption(a) match {
-              case Option(currentName) if currentName == optionName =>
+              case Option(name, abbr) if name == optionName =>
                   return m.asTerm
               case _ =>
             }
@@ -53,9 +53,23 @@ class OptionSetter[T](implicit m: Manifest[T]) {
     val args = a.scalaArgs.map(a => a.productElement(0).asInstanceOf[universe.Constant].value)
     val classSymbol = annotationType.typeSymbol.asClass
     val classMirror = rm.reflectClass(classSymbol)
-    val ctorSymbol = annotationType.declaration(universe.nme.CONSTRUCTOR).asMethod
-    val ctorMirror = classMirror.reflectConstructor(ctorSymbol)
-    val instance = ctorMirror(args: _*).asInstanceOf[Option]
-    return instance
+    val ctorTerm = annotationType.declaration(universe.nme.CONSTRUCTOR).asTerm
+    if (!ctorTerm.isOverloaded) {
+      val ctorSymbol = ctorTerm.asMethod
+      val ctorMirror = classMirror.reflectConstructor(ctorSymbol)
+      val instance = ctorMirror(args: _*).asInstanceOf[Option]
+      return instance
+    } else {
+      val ctorSymbols = ctorTerm.alternatives
+      ctorSymbols.foreach { symbol =>
+        val ctorSymbol = symbol.asMethod
+        if (ctorSymbol.paramss(0).length == args.length) {
+          val ctorMirror = classMirror.reflectConstructor(ctorSymbol)
+          val instance = ctorMirror(args: _*).asInstanceOf[Option]
+          return instance
+        }
+      }
+    }
+    throw new Exception("Cannot find ctor")
   }
 }

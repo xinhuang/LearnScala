@@ -2,7 +2,9 @@ package learnscala.commandline
 
 import scala.annotation.StaticAnnotation
 
-case class Option(val longname: String) extends StaticAnnotation
+case class Option(val name: String, val abbr: String) extends StaticAnnotation {
+  def this(name: String) = this(name, "")
+}
 
 object CommandLine {
 
