@@ -18,13 +18,26 @@ class ActiveObject { self =>
     }
   }
 
-  def send(m: Message) = this ! m
-  def !(m: Message) = queue.put(m)
+  def send[T](m: () => T): Future[T] = this ! m
+
+  def ![T](m: () => T): Future[T] = {
+    val p = promise[T]
+    queue.put(() => execute(m, p))
+    p.future
+  }
 
   def stop(): Unit = {
     this ! (() => done = true)
     while (!thread.isCompleted) {
       Thread.sleep(100)
+    }
+  }
+
+  private def execute[T](m: () => T, p: Promise[T]): Unit = {
+    try {
+      p success m()
+    } catch {
+      case e: Throwable => p failure e
     }
   }
 
