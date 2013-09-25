@@ -10,5 +10,7 @@ object Program {
       }
       println("\nasync print finished")
     }
+
+    println()
   }
 }

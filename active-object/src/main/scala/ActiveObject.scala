@@ -1,22 +1,29 @@
 package learnscala.activeobject
 
-import akka.actor.ActorSystem
-import akka.actor.ActorDSL._
+import scala.concurrent._
+import ExecutionContext.Implicits._
+import java.util.concurrent.LinkedBlockingQueue
 
-class ActiveObject {
+class ActiveObject { self =>
   type Message = () => Unit
-  case object StopEvent
 
-  private var isRunning = true
   private var disposed = false
-  private implicit val system = ActorSystem("active-object")
+
+  private var done: Boolean = false
+  private val queue = new LinkedBlockingQueue[Message]()
+  private val thread = future {
+    while (!done) {
+      val message = queue.take
+      message()
+    }
+  }
 
   def send(m: Message) = this ! m
-  def !(m: Message) = a ! m
+  def !(m: Message) = queue.put(m)
 
   def stop(): Unit = {
-    a ! StopEvent
-    while (isRunning) {
+    this ! (() => done = true)
+    while (!thread.isCompleted) {
       Thread.sleep(100)
     }
   }
@@ -27,15 +34,4 @@ class ActiveObject {
     stop()
     disposed = true
   }
-
-  private val a = actor("active-objct") (new Act {
-      become {
-        case m: Message => m()
-        case StopEvent => { 
-          context.stop(self)
-          isRunning = false
-        }
-      }
-    })
 }
-
