@@ -1,7 +1,6 @@
 package learnscala.activeobject.demo
 
-import scala.concurrent.Future
-import learnscala.activeobject.ActiveObject
+import learnscala.activeobject._
 
 class AsyncConsole {
   val activeObject = new ActiveObject()
