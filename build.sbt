@@ -16,6 +16,8 @@ lazy val `command-line` = project
 
 lazy val observer = project
 
+lazy val di = project
+
 // common properties
 
 scalaVersion := "2.10.2"
