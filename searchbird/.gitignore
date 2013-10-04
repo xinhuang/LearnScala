@@ -1,0 +1,5 @@
+*/target
+target
+sbt-launch.jar
+*.log
+*.swp
